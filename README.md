@@ -24,7 +24,7 @@ alldata <- rbind(testdata, traindata)
 ## 2. Extracts only the measurements on the mean and standard deviation for each measurement.
 
 First, I loaded the feature data into R using the read.table command.
-Then I renamed the columns of the alldata dataframe using the variable names from the features.txt file.
+Then I renamed the columns of the *alldata* dataframe using the variable names from the features.txt file.
 features <- read.table("/Users/elsahou/Documents/R Programming/data/UCI HAR Dataset/features.txt")
 columns <- as.vector(features$V2) 
 colnames(alldata) <- c(columns, "Activity", "Subject")
@@ -33,17 +33,17 @@ Using the grep command, I identified the features that included a mean or standa
 matchesmean <- grep("mean()", features$V2, fixed = TRUE)
 matchesstd <- grep("std()", features$V2, fixed = TRUE)
 
-Then I subsetted the features dataframe to include only columns with measurements on mean and standard deviation. 
+Then I subsetted the *features* dataframe to include only columns with measurements on mean and standard deviation. 
 meanextracts <- features[matchesmean, ]
 stdextracts <- features[matchesstd, ]
 
-I combined the data into one dataset named allextracts. 
+I combined the data into one dataset named *allextracts*. 
 This is a dataframe with the column names that match mean or standard deviation measurements
 allextracts <- rbind(meanextracts, stdextracts)
 
-I created a new dataframe called extracted that is a subset of the alldata dataframe.
-I subset the columns to only include columns that were named in the allextracts dataframe. 
-I kept the Activity and Subject columns from alldata as well. 
+I created a new dataframe called *extracted* that is a subset of the alldata dataframe.
+I subset the columns to only include columns that were named in the *allextracts* dataframe. 
+I kept the Activity and Subject columns from *alldata* as well. 
 extracted <- alldata[, c(as.vector(allextracts$V1), 562, 563)]
 
 ## 3. Uses descriptive activity names to name the activities in the data set
@@ -77,11 +77,11 @@ colnames(extracted) <- sub("\\)", "", names(extracted))
 
 ## 5. From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
 
-First I extracted the names of the columns that I want to group the data by as a list and assigned the list to variable grp_cols.
-Then I changed the class of that list to symbol and assigned the new list to the variable dots.
-I created a new dataframe called tidydata from the extracted dataframe by using group_by_ and summarise_each commands. 
-The tidydata datafram includes only the means of each variable grouped by both Activity and Subject.
-I created a file of called tidydata using write.table().
+First I extracted the names of the columns that I want to group the data by as a list and assigned the list to variable *grp_cols*.
+Then I changed the class of that list to symbol and assigned the new list to the variable *dots*.
+I created a new dataframe called *tidydata* from the *extracted* dataframe by using group_by_ and summarise_each commands. 
+The *tidydata* datafram includes only the means of each variable grouped by both Activity and Subject.
+I created a file of called tidydata.txt using write.table().
 
 grp_cols <- names(extracted)[67:68]
 dots <- lapply(grp_cols, as.symbol)
