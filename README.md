@@ -1,7 +1,7 @@
 # getdata-031-project
 Getting and Cleaning Data Course Project
 
-1. Merges the training and the test sets to create one data set.
+## 1. Merges the training and the test sets to create one data set.
 
 First, read downloaded files into R using read.table() command. 
 
@@ -21,7 +21,7 @@ Then combine the test and train data to form one dataset using rbind() command.
 
 alldata <- rbind(testdata, traindata)
 
-2. Extracts only the measurements on the mean and standard deviation for each measurement.
+## 2. Extracts only the measurements on the mean and standard deviation for each measurement.
 
 First, I loaded the feature data into R using the read.table command.
 Then I renamed the columns of the alldata dataframe using the variable names from the features.txt file.
@@ -46,7 +46,7 @@ I subset the columns to only include columns that were named in the allextracts 
 I kept the Activity and Subject columns from alldata as well. 
 extracted <- alldata[, c(as.vector(allextracts$V1), 562, 563)]
 
-3. Uses descriptive activity names to name the activities in the data set
+## 3. Uses descriptive activity names to name the activities in the data set
 
 Using the information in activity_labels.txt, I replaced the numeric Activity value with descriptive names.
 
@@ -57,7 +57,7 @@ extracted$Activity[extracted$Activity == 4] <- "Sitting"
 extracted$Activity[extracted$Activity == 5] <- "Standing"
 extracted$Activity[extracted$Activity == 6] <- "Laying"
 
-4. Appropriately labels the data set with descriptive variable names.
+## 4. Appropriately labels the data set with descriptive variable names.
 
 I removed all "-" from the variable names. 
 Using information from the features_info.txt file, I updated the variable names as follows to be more readable:
@@ -75,7 +75,8 @@ colnames(extracted) <- sub("std()", "StandardDeviation", names(extracted))
 colnames(extracted) <- sub("\\(", "", names(extracted))
 colnames(extracted) <- sub("\\)", "", names(extracted))
 
-5. From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
+## 5. From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
+
 First I extracted the names of the columns that I want to group the data by as a list and assigned the list to variable grp_cols.
 Then I changed the class of that list to symbol and assigned the new list to the variable dots.
 I created a new dataframe called tidydata from the extracted dataframe by using group_by_ and summarise_each commands. 
